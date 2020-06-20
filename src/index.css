@@ -1,0 +1,9 @@
+.select {
+    width: 100%;
+    height: fit-content;
+    padding: 3px;
+}
+
+.selectedOption {
+    color: #4169e1;
+}
