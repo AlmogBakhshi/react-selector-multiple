@@ -8,7 +8,7 @@
 ## Prop Types
 |Prop|Type|Description|
 |---|---|---|
-|options|arrayOf(string)|all option you want to show|
+|options|arrayOf(object / string)|all option you want to show, if you want array of objects, the object should look like this `{value: string / object, name: string}`|
 |selectedValues|arrayOf(string)|need to set here the selected values|
 |onChange|func|event that return the selected|
 |style|oneOfType(object, array)|set different style to select tag|
@@ -23,29 +23,71 @@ import React, { useState } from 'react';
 import MultipleSelect from 'react-selector-multiple';
 
 const App = () => {
-  const options = ['Red', 'Green', 'Blue', 'Yellow'];
+  const [values_1, setValues_1] = useState([]);
+  const [values_2, setValues_2] = useState([]);
+  const [values_3, setValues_3] = useState([]);
 
-  const [values, setValues] = useState([]);
+  const options_1 = [
+    'Red',
+    'Green',
+    'Blue',
+    'Yellow'
+  ];
+
+  const options_2 = [
+    { value: 'Red', name: 'Red' },
+    { value: 'Green', name: 'Green' },
+    { value: 'Blue', name: 'Blue' },
+    { value: 'Yellow', name: 'Yellow' }
+  ];
+
+  const options_3 = [
+    { value: { id: 1 }, name: 'Red' },
+    { value: { id: 2, value: 'green' }, name: 'Green' },
+    { value: { id: 3, value: 'blue' }, name: 'Blue' },
+    { value: { id: 4, value: 'yellow' }, name: 'Yellow' }
+  ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <MultipleSelect
-        options={options}
-        selectedValues={values}
-        onChange={e => setValues(e)}
-        style={{ width: '30%', borderRadius: '5px', outline: 'none' }}
-      />
+      <div>
+        <h4>options_1 array of strings:</h4>
+        <MultipleSelect
+          options={options_1}
+          selectedValues={values_1}
+          onChange={e => setValues_1(e)}
+          style={{ borderRadius: '5px', outline: 'none' }}
+        />
+      </div>
 
-      <MultipleSelect
-        options={options}
-        selectedValues={values}
-        onChange={e => setValues(e)}
-        style={{ marginTop: '50px', width: '30%', borderRadius: '5px', outline: 'none' }}
-        selectedOptionStyle={{ color: '#dc143c' }}
-        placeHolder='Multiple Select'
-        selectedPlaceHolder={e => e.map((val, index) => e.length - 1 === index ? val : `${val}, `)}
-        selectAllOptions
-      />
+      <div>
+        <h4>options_2 array of objects, the value is string:</h4>
+        <MultipleSelect
+          options={options_2}
+          selectedValues={values_2}
+          onChange={e => setValues_2(e)}
+          style={{ borderRadius: '5px', outline: 'none' }}
+          selectedOptionStyle={{ color: '#dc143c' }}
+          placeHolder='Multiple Select'
+          selectedPlaceHolder={e => e.map((val, index) => e.length - 1 === index ? val : `${val}, `)}
+          selectAllOptions
+        />
+      </div>
+
+      <div>
+        <h4>options_3 array of objects, the value is object:</h4>
+        <MultipleSelect
+          options={options_3}
+          selectedValues={values_3}
+          onChange={e => setValues_3(e)}
+          style={{ borderRadius: '5px', outline: 'none' }}
+          selectedOptionStyle={{ color: '#dc143c' }}
+          placeHolder='Multiple Select'
+          selectedPlaceHolder={e => e.map((val, index) => e.length - 1 === index ? val.value ? val.value : val.id :
+            `${val.value ? val.value : val.id}, `)}
+          selectAllOptions
+        />
+      </div>
     </div>
   );
 }

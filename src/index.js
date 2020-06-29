@@ -8,12 +8,17 @@ const Select = (props) => {
     const [placeHolder] = useState(props.placeHolder || 'Please Choose...');
 
     const HandleChange = (e) => {
-        const targetValue = e.target.value;
+        const targetValue = JSON.parse(e.target.value);
+        const arrayNotOfObjects = options.some(option => !option.value || !option.name);
+
+        let allOptions = options;
+        !arrayNotOfObjects && (allOptions = options.map(option => option.value));
+
         const filtered = targetValue === 'react-selector-multiple-select-all' ?
-            (values === options ? [] : options) :
-            (!values.includes(targetValue) ?
+            (values.length === allOptions.length ? [] : allOptions) :
+            (!values.some(val => JSON.stringify(val) === JSON.stringify(targetValue)) ?
                 [...values, targetValue] :
-                values.filter(item => item !== targetValue));
+                values.filter(item => JSON.stringify(item) !== JSON.stringify(targetValue)));
 
         setValues(filtered);
 
@@ -24,17 +29,29 @@ const Select = (props) => {
         return (props.selectedPlaceHolder && props.selectedPlaceHolder(values)) || `${values.length} item selected`;
     }
 
+    const HandleShowOption = () => {
+        if (options && Array.isArray(options) && options.length > 0) {
+            const arrayNotOfObjects = options.some(option => !option.value || !option.name);
+
+            return options.map((option, index) => {
+                const optionValue = JSON.stringify(arrayNotOfObjects ? option : option.value);
+                return <option key={index} value={optionValue}
+                    className={values.some(val => JSON.stringify(val) === optionValue) ? 'selectedOption' : ''}
+                    style={values.some(val => JSON.stringify(val) === optionValue) ? props.selectedOptionStyle : {}} >
+                    {arrayNotOfObjects ? option : option.name}</option>
+            });
+        }
+    }
+
     return (
         <select value='react-selector-multiple' className='select' onChange={HandleChange} style={props.style} >
             <option value='react-selector-multiple' disabled hidden>
                 {values && values.length > 0 ? HandleSelectedPlaceHolder() : placeHolder}
             </option>
-            {props.selectAllOptions && <option value='react-selector-multiple-select-all'>
+            {props.selectAllOptions && <option value={JSON.stringify('react-selector-multiple-select-all')}>
                 Select All
             </option>}
-            {options && options.length > 0 && options.map((option, index) =>
-                <option key={index} value={option} className={values.includes(option) ? 'selectedOption' : ''}
-                    style={values.includes(option) ? props.selectedOptionStyle : {}} >{option}</option>)}
+            <HandleShowOption />
         </select>
     )
 }
@@ -44,7 +61,7 @@ Select.propTypes = {
     placeHolder: PropTypes.string,
     selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
+    options: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.object])).isRequired,
     selectedOptionStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     selectedPlaceHolder: PropTypes.func,
     selectAllOptions: PropTypes.bool,
