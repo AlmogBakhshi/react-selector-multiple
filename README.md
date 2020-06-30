@@ -9,8 +9,8 @@
 |Prop|Type|Description|
 |---|---|---|
 |options|arrayOf(object / string)|all option you want to show, if you want array of objects, the object should look like this `{value: string / object, name: string}`|
-|selectedValues|arrayOf(string)|need to set here the selected values|
-|onChange|func|event that return the selected|
+|selectedValues|arrayOf(object / string)|need to set here the selected values, if the option is array of objects you get the value|
+|onChange|func|event that return the selected, also here if the option is array of objects you get the value|
 |style|oneOfType(object, array)|set different style to select tag|
 |selectedOptionStyle|oneOfType(object, array)|set different style to selected options|
 |placeHolder|string|change the place holder|
@@ -18,6 +18,7 @@
 |selectAllOptions|bool|add select all option|
 
 ## Example Code
+[demo](https://almogbakhshi.github.io/#/react-selector-multiple)
 ```
 import React, { useState } from 'react';
 import MultipleSelect from 'react-selector-multiple';
