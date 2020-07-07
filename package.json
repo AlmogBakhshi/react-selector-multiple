@@ -1,14 +1,14 @@
 {
   "name": "react-selector-multiple",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "multiple select component for react",
   "main": "./build/index.js",
   "scripts": {
     "build": "webpack"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -22,7 +22,8 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "react-scripts": "3.4.1"
+    "react-scripts": "^3.4.1",
+    "prop-types": "^15.7.2"
   },
   "repository": {
     "type": "git",
