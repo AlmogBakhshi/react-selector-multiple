@@ -22,7 +22,7 @@ Note that to enable Hooks, all React packages need to be 16.8.0 or higher.
 
 ## Example Code
 [demo](https://almogbakhshi.github.io/#/react-selector-multiple)
-```
+```javascript
 import React, { useState } from 'react';
 import MultipleSelect from 'react-selector-multiple';
 
